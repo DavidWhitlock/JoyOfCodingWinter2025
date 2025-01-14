@@ -2,12 +2,14 @@ package edu.pdx.cs.joy.whitlock;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the Student class.  In addition to the JUnit annotations,
@@ -50,6 +52,13 @@ public class StudentTest
   void studentToStringContainsThisClassIsTooMuchWork() {
     Student student = createStudentNamed("Student");
     assertThat(student.toString(), containsString(" \"This class is too much work\"."));
+  }
+
+  @Test
+  void studentWithNameThatIsANumberThrowsIllegalArgumentException() {
+    IllegalArgumentException exception =
+      assertThrows(IllegalArgumentException.class, () -> createStudentNamed("123"));
+    assertThat(exception.getMessage(), equalTo("Name cannot be a number"));
   }
 
 }

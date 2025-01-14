@@ -24,6 +24,18 @@ public class Student extends Human {
    */                                                                               
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
+    throwIllegalArgumentExceptionIfNumber(name);
+  }
+
+  private void throwIllegalArgumentExceptionIfNumber(String string) {
+    try {
+      Integer.parseInt(string);
+      throw new IllegalArgumentException("Name cannot be a number");
+
+    } catch (NumberFormatException ex) {
+      // Name is not a valid number.  That's good.
+    }
+
   }
 
   /**                                                                               
