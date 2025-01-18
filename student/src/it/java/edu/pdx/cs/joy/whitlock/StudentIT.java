@@ -39,6 +39,15 @@ class StudentIT extends InvokeMainTestCase {
 
     assertThat(result.getTextWrittenToStandardError(), containsString("Please enter a valid GPA."));
     assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
+  }
+
+  @Test
+  void invalidGpaPrintsErrorMessageToStandardError() {
+    String[] args = { "Adam", "male", "INVALID", "Intro to Database" };
+    InvokeMainTestCase.MainMethodResult result = invokeMain(Student.class, args);
+
+    assertThat(result.getTextWrittenToStandardError(), containsString("GPA \"INVALID\" is not a number between 0.0 and 4.0"));
+    assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
 
   }
 }

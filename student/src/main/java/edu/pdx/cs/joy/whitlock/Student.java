@@ -74,7 +74,14 @@ public class Student extends Human {
     }
 
     String gpaString = args[2];
-    double gpa = Double.parseDouble(gpaString);
+    double gpa;
+    try {
+      gpa = Double.parseDouble(gpaString);
+
+    } catch (NumberFormatException ex) {
+      System.err.println("GPA \"" + gpaString + "\" is not a number between 0.0 and 4.0");
+      return;
+    }
 
     ArrayList<String> classes = new ArrayList<>();
     try {
