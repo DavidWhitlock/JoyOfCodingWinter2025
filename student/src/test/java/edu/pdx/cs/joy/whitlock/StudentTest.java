@@ -45,7 +45,8 @@ public class StudentTest
     classes.add("Java");
     Student dave = new Student("Dave", classes, 3.64, "male");
 
-    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\"."));
+    String toString = "Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\".";
+    assertThat(dave.toString(), equalTo(toString));
   }
 
   @Test
@@ -59,6 +60,19 @@ public class StudentTest
     IllegalArgumentException exception =
       assertThrows(IllegalArgumentException.class, () -> createStudentNamed("123"));
     assertThat(exception.getMessage(), equalTo("Name cannot be a number"));
+  }
+
+  @Test
+  void negativeGpaThrowsNegativeGpaException() {
+    // Adam male -3.64 Intro to Database
+
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Intro to Database");
+
+    assertThrows(Student.NegativeGpaException.class, () -> {
+      new Student("Adam", classes, -3.64, "male");
+    });
+
   }
 
 }

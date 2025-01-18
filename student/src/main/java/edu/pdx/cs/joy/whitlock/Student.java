@@ -25,6 +25,14 @@ public class Student extends Human {
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
     throwIllegalArgumentExceptionIfNumber(name);
+    throwNegativeGpaExceptionIfNegative(gpa);
+  }
+
+  private void throwNegativeGpaExceptionIfNegative(double gpa) {
+    if (gpa < 0.0) {
+      throw new NegativeGpaException();
+    }
+
   }
 
   private void throwIllegalArgumentExceptionIfNumber(String string) {
@@ -60,6 +68,24 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    System.err.println("Missing command line arguments");
+    if (args.length == 0) {
+      System.err.println("** Missing command line arguments");
+      return;
+    }
+
+    String gpaString = args[2];
+    double gpa = Double.parseDouble(gpaString);
+
+    ArrayList<String> classes = new ArrayList<>();
+    try {
+      new Student("Name", classes, gpa, "GENDER");
+
+    } catch (NegativeGpaException ex) {
+      System.err.println("Please enter a valid GPA.");
+    }
+
+  }
+
+  public static class NegativeGpaException extends RuntimeException {
   }
 }
