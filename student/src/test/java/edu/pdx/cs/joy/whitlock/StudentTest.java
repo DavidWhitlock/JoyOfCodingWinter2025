@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -73,6 +78,17 @@ public class StudentTest
       new Student("Adam", classes, -3.64, "male");
     });
 
+  }
+
+  @Test
+  void aboutDatesKoanUsingDateTimeFormatterToFormatDate() {
+    LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(100010001000L), ZoneId.systemDefault());
+
+    String shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date);
+    assertThat(shortFormat, equalTo("3/3/73, 4:33 AM"));
+
+    String mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(date);
+    assertThat(mediumFormat, equalTo("Mar 3, 1973, 4:33:21 AM"));
   }
 
 }
