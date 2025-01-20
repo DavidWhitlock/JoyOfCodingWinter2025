@@ -85,10 +85,10 @@ public class StudentTest
     LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(100010001000L), ZoneId.systemDefault());
 
     String shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date);
-    assertThat(shortFormat, equalTo("3/3/73, 4:33 AM"));
+    assertThat(shortFormat, equalTo("3/3/73, 4:33\u202FAM"));
 
     String mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(date);
-    assertThat(mediumFormat, equalTo("Mar 3, 1973, 4:33:21 AM"));
+    assertThat(mediumFormat, equalTo("Mar 3, 1973, 4:33:21\u202FAM"));
   }
 
 }
