@@ -12,6 +12,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -84,11 +85,13 @@ public class StudentTest
   void aboutDatesKoanUsingDateTimeFormatterToFormatDate() {
     LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(100010001000L), ZoneId.of("-07:00"));
 
+    // assert with and without non-breaking space to handle Java 17 and 21+
+
     String shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date);
-    assertThat(shortFormat, equalTo("3/3/73, 5:33\u202FAM"));
+    assertThat(shortFormat, anyOf(equalTo("3/3/73, 5:33\u202FAM"), equalTo("3/3/73, 5:33 AM")));
 
     String mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(date);
-    assertThat(mediumFormat, equalTo("Mar 3, 1973, 5:33:21\u202FAM"));
+    assertThat(mediumFormat, anyOf(equalTo("Mar 3, 1973, 5:33:21\u202FAM"), equalTo("Mar 3, 1973, 5:33:21 AM")));
   }
 
 }
