@@ -82,13 +82,13 @@ public class StudentTest
 
   @Test
   void aboutDatesKoanUsingDateTimeFormatterToFormatDate() {
-    LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(100010001000L), ZoneId.systemDefault());
+    LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(100010001000L), ZoneId.of("-07:00"));
 
     String shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date);
-    assertThat(shortFormat, equalTo("3/3/73, 4:33\u202FAM"));
+    assertThat(shortFormat, equalTo("3/3/73, 5:33\u202FAM"));
 
     String mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(date);
-    assertThat(mediumFormat, equalTo("Mar 3, 1973, 4:33:21\u202FAM"));
+    assertThat(mediumFormat, equalTo("Mar 3, 1973, 5:33:21\u202FAM"));
   }
 
 }
