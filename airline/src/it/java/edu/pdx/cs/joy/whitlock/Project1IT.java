@@ -31,6 +31,8 @@ class Project1IT extends InvokeMainTestCase {
   @Disabled
   @Test
   void printOptionPrintsValidFlightToStringToStandardOut() {
+    // $ java -jar target/airline-1.0.0.jar -print "Airline Name" 123 PDX 1/27/2025 18:00 LAV 1/27/2025 20:00
+
     MainMethodResult result = invokeMain("-print", "Airline Name", "123", "PDX", "1/27/2025", "18:00", "LAV", "1/27/2025", "20:00");
     String expected = "Flight 123 departs PDX at 1/27/2025 18:00 arrives LAV at 1/27/2025 20:00";
     assertThat(result.getTextWrittenToStandardOut(), containsString(expected));
