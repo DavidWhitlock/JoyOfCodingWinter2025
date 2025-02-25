@@ -4,8 +4,6 @@ import edu.pdx.cs.joy.ParserException;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.StringWriter;
-import java.util.Map;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -18,8 +16,8 @@ public class Project5 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String airline = null;
+        String flightNumber = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -28,11 +26,11 @@ public class Project5 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (word == null) {
-                word = arg;
+            } else if (airline == null) {
+                airline = arg;
 
-            } else if (definition == null) {
-                definition = arg;
+            } else if (flightNumber == null) {
+                flightNumber = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -61,22 +59,18 @@ public class Project5 {
 
         String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+            if (airline == null) {
+                System.err.println("Missing airline");
+                return;
 
-            } else if (definition == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatFlightDictionaryEntry(word, client.getDefinition(word));
+            } else if (flightNumber == null) {
+                // Pretty print the airline
+                message = PrettyPrinter.formatFlightDictionaryEntry(airline, client.getAirline(airline));
 
             } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.prettyPrintFlight(word, definition);
+                // Post the airline/flightNumber pair
+                client.addFlight(airline, flightNumber);
+                message = Messages.prettyPrintFlight(airline, flightNumber);
             }
 
         } catch (IOException | ParserException ex ) {
@@ -102,11 +96,11 @@ public class Project5 {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java Project5 host port [word] [definition]");
+        err.println("usage: java Project5 host port airline [flightNumber]");
         err.println("  host         Host of web server");
         err.println("  port         Port of web server");
-        err.println("  word         Word in dictionary");
-        err.println("  definition   Definition of word");
+        err.println("  airline      Name of airline");
+        err.println("  flightNumber Flight number");
         err.println();
         err.println("This simple program posts words and their definitions");
         err.println("to the server.");
