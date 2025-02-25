@@ -39,8 +39,7 @@ public class AirlineServlet extends HttpServlet {
           writeAirline(word, response);
 
       } else {
-          log("GET all dictionary entries");
-          writeAllDictionaryEntries(response);
+          missingRequiredParameter(response, AIRLINE_PARAMETER);
       }
   }
 
@@ -133,20 +132,6 @@ public class AirlineServlet extends HttpServlet {
 
       response.setStatus(HttpServletResponse.SC_OK);
     }
-  }
-
-  /**
-   * Writes all of the dictionary entries to the HTTP response.
-   *
-   * The text of the message is formatted with {@link TextDumper}
-   */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-  {
-      PrintWriter pw = response.getWriter();
-      TextDumper dumper = new TextDumper(pw);
-//      dumper.dump(dictionary);
-
-      response.setStatus( HttpServletResponse.SC_OK );
   }
 
   /**

@@ -91,4 +91,17 @@ class AirlineServletTest {
     assertThat(parsedAirline.getFlights().iterator().next().getNumber(), equalTo(flightNumber));
   }
 
+  @Test
+  void airlineNameParameterIsRequired() throws IOException {
+    HttpServletRequest request = mock(HttpServletRequest.class);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    when(response.getWriter()).thenReturn(mock(PrintWriter.class));
+
+    AirlineServlet servlet = new AirlineServlet();
+    servlet.doGet(request, response);
+
+    verify(response).sendError(eq(HttpServletResponse.SC_PRECONDITION_FAILED), anyString());
+  }
+
 }
