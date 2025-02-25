@@ -174,4 +174,9 @@ public class AirlineServlet extends HttpServlet {
   public void log(String msg) {
     System.out.println(msg);
   }
+
+  @VisibleForTesting
+  void addAirline(Airline airline) {
+    this.airlines.put(airline.getName(), airline);
+  }
 }

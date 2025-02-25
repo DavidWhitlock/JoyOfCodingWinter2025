@@ -1,5 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
+import edu.pdx.cs.joy.ParserException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -53,6 +55,40 @@ class AirlineServletTest {
     assertThat(airline.getName(), equalTo(airlineName));
     assertThat(airline.getFlights().size(), equalTo(1));
     assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(Integer.parseInt(flightNumber)));
+  }
+
+  @Test
+  void getAirlineWithOneFlight() throws IOException, ParserException {
+    AirlineServlet servlet = new AirlineServlet();
+
+    String airlineName = "Airline";
+    int flightNumber = 123;
+
+    Flight flight = new Flight(flightNumber);
+    Airline airline = new Airline(airlineName);
+    airline.addFlight(flight);
+
+    servlet.addAirline(airline);
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AirlineServlet.AIRLINE_PARAMETER)).thenReturn(airlineName);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request, response);
+
+    String airlineText = stringWriter.toString();
+    TextParser parser = new TextParser(new StringReader(airlineText));
+    Airline parsedAirline = parser.parse();
+    assertThat(parsedAirline.getName(), equalTo(airlineName));
+    assertThat(parsedAirline.getFlights().size(), equalTo(1));
+    assertThat(parsedAirline.getFlights().iterator().next().getNumber(), equalTo(flightNumber));
   }
 
 }
