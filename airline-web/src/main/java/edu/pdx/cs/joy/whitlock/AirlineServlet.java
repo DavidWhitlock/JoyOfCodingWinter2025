@@ -17,8 +17,8 @@ import java.util.Map;
  * and their definitions.
  */
 public class AirlineServlet extends HttpServlet {
-  static final String WORD_PARAMETER = "word";
-  static final String DEFINITION_PARAMETER = "definition";
+  static final String AIRLINE_PARAMETER = "word";
+  static final String FLIGHT_NUMBER_PARAMETER = "definition";
 
   private final Map<String, String> dictionary = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String word = getParameter( WORD_PARAMETER, request );
+      String word = getParameter(AIRLINE_PARAMETER, request );
       if (word != null) {
           log("GET " + word);
           writeDefinition(word, response);
@@ -54,15 +54,15 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String word = getParameter(WORD_PARAMETER, request );
+      String word = getParameter(AIRLINE_PARAMETER, request );
       if (word == null) {
-          missingRequiredParameter(response, WORD_PARAMETER);
+          missingRequiredParameter(response, AIRLINE_PARAMETER);
           return;
       }
 
-      String definition = getParameter(DEFINITION_PARAMETER, request );
+      String definition = getParameter(FLIGHT_NUMBER_PARAMETER, request );
       if ( definition == null) {
-          missingRequiredParameter( response, DEFINITION_PARAMETER );
+          missingRequiredParameter( response, FLIGHT_NUMBER_PARAMETER);
           return;
       }
 
@@ -126,7 +126,7 @@ public class AirlineServlet extends HttpServlet {
 
       Map<String, String> wordDefinition = Map.of(word, definition);
       TextDumper dumper = new TextDumper(pw);
-      dumper.dump(wordDefinition);
+//      dumper.dump(wordDefinition);
 
       response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -141,7 +141,7 @@ public class AirlineServlet extends HttpServlet {
   {
       PrintWriter pw = response.getWriter();
       TextDumper dumper = new TextDumper(pw);
-      dumper.dump(dictionary);
+//      dumper.dump(dictionary);
 
       response.setStatus( HttpServletResponse.SC_OK );
   }

@@ -4,6 +4,7 @@ import edu.pdx.cs.joy.ParserException;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.StringWriter;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -16,8 +17,8 @@ public class Project5 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String airline = null;
-        String flightNumber = null;
+        String airlineName = null;
+        String flightNumberString = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -26,11 +27,11 @@ public class Project5 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (airline == null) {
-                airline = arg;
+            } else if (airlineName == null) {
+                airlineName = arg;
 
-            } else if (flightNumber == null) {
-                flightNumber = arg;
+            } else if (flightNumberString == null) {
+                flightNumberString = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -59,18 +60,23 @@ public class Project5 {
 
         String message;
         try {
-            if (airline == null) {
+            if (airlineName == null) {
                 System.err.println("Missing airline");
                 return;
 
-            } else if (flightNumber == null) {
+            } else if (flightNumberString == null) {
                 // Pretty print the airline
-                message = PrettyPrinter.formatFlightDictionaryEntry(airline, client.getAirline(airline));
+                Airline airline = client.getAirline(airlineName);
+                StringWriter sw = new StringWriter();
+                new PrettyPrinter(sw).dump(airline);
+                message = sw.toString();
 
             } else {
                 // Post the airline/flightNumber pair
-                client.addFlight(airline, flightNumber);
-                message = Messages.prettyPrintFlight(airline, flightNumber);
+                int flightNumber = Integer.parseInt(flightNumberString);
+                Flight flight = new Flight(flightNumber);
+                client.addFlight(airlineName, flight);
+                message = Messages.prettyPrintFlight(airlineName, flightNumberString);
             }
 
         } catch (IOException | ParserException ex ) {
