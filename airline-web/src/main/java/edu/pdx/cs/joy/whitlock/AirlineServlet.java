@@ -71,7 +71,7 @@ public class AirlineServlet extends HttpServlet {
       this.dictionary.put(word, definition);
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.definedWordAs(word, definition));
+      pw.println(Messages.prettyPrintFlight(word, definition));
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);

@@ -29,9 +29,9 @@ class AirlineRestClientIT {
   }
 
   @Test
-  void test0RemoveAllDictionaryEntries() throws IOException {
+  void test0RemoveAllAirlines() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllAirlines();
   }
 
   @Test

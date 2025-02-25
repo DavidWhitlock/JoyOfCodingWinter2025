@@ -16,7 +16,7 @@ public class PrettyPrinter {
   }
 
   @VisibleForTesting
-  static String formatDictionaryEntry(String word, String definition )
+  static String formatFlightDictionaryEntry(String word, String definition )
   {
     return String.format("  %s -> %s", word, definition);
   }
@@ -36,7 +36,7 @@ public class PrettyPrinter {
       for (Map.Entry<String, String> entry : dictionary.entrySet()) {
         String word = entry.getKey();
         String definition = entry.getValue();
-        pw.println(formatDictionaryEntry(word, definition));
+        pw.println(formatFlightDictionaryEntry(word, definition));
       }
 
       pw.flush();
