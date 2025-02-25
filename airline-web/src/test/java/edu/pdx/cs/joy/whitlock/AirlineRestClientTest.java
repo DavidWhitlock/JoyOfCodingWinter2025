@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class AirlineRestClientTest {
 
   @Test
-  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
+  void getAirlineReturnsExpectedFlight() throws ParserException, IOException {
     String airlineName = "Airline Name";
     Airline airline = new Airline(airlineName);
     int flightNumber = 123;
