@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textView2"
@@ -52,11 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textAlignment="center" />
 
         <Button
             android:layout_width="55dp"
             android:layout_height="wrap_content"
+            android:onClick="computeSum"
             android:text="@string/equals" />
 
         <TextView

@@ -2,6 +2,9 @@ package edu.pdx.cs.joy.whitlock;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,5 +28,37 @@ public class CalculatorActivity extends AppCompatActivity {
 
     public void backToMain(View view) {
         finish();
+    }
+
+    public void computeSum(View view) {
+        EditText leftOperand = findViewById(R.id.leftOperand);
+        EditText rightOperand = findViewById(R.id.rightOperand);
+
+        String leftString = leftOperand.getText().toString();
+        String rightString = rightOperand.getText().toString();
+
+        int leftValue;
+        try {
+            leftValue = Integer.parseInt(leftString);
+
+        } catch (NumberFormatException ex) {
+            Toast.makeText(this, "Invalid left operand " + leftString, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int rightValue;
+        try {
+            rightValue = Integer.parseInt(rightString);
+
+        } catch (NumberFormatException ex) {
+            Toast.makeText(this, "Invalid right operand " + rightString, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int sumValue = leftValue + rightValue;
+
+        TextView sum = findViewById(R.id.sum);
+        sum.setText(String.valueOf(sumValue));
+
     }
 }
