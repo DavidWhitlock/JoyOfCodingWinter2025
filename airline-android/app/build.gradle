@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'edu.pdx.cs.joy.whitlock'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "edu.pdx.cs.joy.whitlock"
