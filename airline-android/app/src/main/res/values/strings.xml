@@ -4,4 +4,6 @@
     <string name="launch_calculator">Launch Calculator</string>
     <string name="this_is_a_calculator">This is a calculator</string>
     <string name="back_to_main">Back to Main</string>
+    <string name="equals">=</string>
+    <string name="plus">+</string>
 </resources>
