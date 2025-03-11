@@ -3,6 +3,7 @@ package edu.pdx.cs.joy.whitlock;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.sums);
         listView.setAdapter(this.flights);
+        listView.setOnItemClickListener((parent, view, position, id) -> toastFlightAtPosition(position));
+    }
+
+    private void toastFlightAtPosition(int position) {
+        Flight flight = this.flights.getItem(position);
+        if (flight != null) {
+            Toast.makeText(this, "You clicked Flight " + flight.getNumber(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void launchCalculator(View view) {
