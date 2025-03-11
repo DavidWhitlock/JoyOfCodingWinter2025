@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class CalculatorActivity extends AppCompatActivity {
 
-    static final String SUM_VALUE = "SUM";
+    static final String FLIGHT = "SUM";
     private int sum;
 
     @Override
@@ -31,8 +31,9 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void backToMain(View view) {
+        Flight flight = new Flight(this.sum);
         Intent intent = new Intent();
-        intent.putExtra(SUM_VALUE, this.sum);
+        intent.putExtra(FLIGHT, flight);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -67,8 +68,5 @@ public class CalculatorActivity extends AppCompatActivity {
 
         TextView sum = findViewById(R.id.sum);
         sum.setText(String.valueOf(sumValue));
-
-        Flight flight = new Flight(sumValue);
-        Toast.makeText(this, flight.toString(), Toast.LENGTH_SHORT).show();
     }
 }

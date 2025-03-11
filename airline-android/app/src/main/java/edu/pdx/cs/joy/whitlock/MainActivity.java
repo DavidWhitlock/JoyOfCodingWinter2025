@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final int GET_SUM = 42;
-    private ArrayAdapter<Integer> sums;
+    private ArrayAdapter<Flight> flights;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +39,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        this.sums = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        this.flights = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         try {
-            readSumsFromFile();
+            readFlightsFromFile();
         } catch (IOException e) {
             Toast.makeText(this, "While reading sums file: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         ListView listView = findViewById(R.id.sums);
-        listView.setAdapter(this.sums);
+        listView.setAdapter(this.flights);
     }
 
     public void launchCalculator(View view) {
@@ -63,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == GET_SUM) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    int sum = data.getIntExtra(CalculatorActivity.SUM_VALUE, 0);
-                    this.sums.add(sum);
+                    Flight flight = data.getSerializableExtra(CalculatorActivity.FLIGHT, Flight.class);
+                    this.flights.add(flight);
                     try {
-                        writeSumsToFile();
+                        writeFlightToFile();
                     } catch (IOException e) {
                         Toast.makeText(this, "While writing sums file: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -75,12 +74,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void writeSumsToFile() throws IOException {
+    private void writeFlightToFile() throws IOException {
         File sumsFile = getSumsFile();
         try (PrintWriter pw = new PrintWriter(new FileWriter(sumsFile))) {
-            for (int i = 0; i < this.sums.getCount(); i++) {
-                Integer sum = this.sums.getItem(i);
-                pw.println(sum);
+            for (int i = 0; i < this.flights.getCount(); i++) {
+                Flight flight = this.flights.getItem(i);
+                if (flight != null) {
+                    pw.println(flight.getNumber());
+                }
             }
         }
 
@@ -91,12 +92,13 @@ public class MainActivity extends AppCompatActivity {
         return new File(dataDir, "sums.txt");
     }
 
-    private void readSumsFromFile() throws IOException {
+    private void readFlightsFromFile() throws IOException {
         File sumsFile = getSumsFile();
         try (BufferedReader br = new BufferedReader(new FileReader(sumsFile))) {
             for (String line = br.readLine(); line != null ; line = br.readLine()) {
-                int sum = Integer.parseInt(line);
-                this.sums.add(sum);
+                int number = Integer.parseInt(line);
+                Flight flight = new Flight(number);
+                this.flights.add(flight);
             }
         }
     }
