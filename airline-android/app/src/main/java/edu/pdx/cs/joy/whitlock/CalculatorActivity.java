@@ -68,5 +68,7 @@ public class CalculatorActivity extends AppCompatActivity {
         TextView sum = findViewById(R.id.sum);
         sum.setText(String.valueOf(sumValue));
 
+        Flight flight = new Flight(sumValue);
+        Toast.makeText(this, flight.toString(), Toast.LENGTH_SHORT).show();
     }
 }
